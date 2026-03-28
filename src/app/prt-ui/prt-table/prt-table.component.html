@@ -1,0 +1,64 @@
+@let cfg = config();
+
+<div
+  [class]="
+    cfg.containerClass || 'overflow-hidden rounded-xl border border-light'
+  "
+>
+  <table [class]="cfg.tableClass || 'w-full'">
+    <thead [class]="cfg.headerClass || 'bg-light'">
+      <tr>
+        @for (column of columns(); track column.key) {
+          <th
+            [class]="
+              column.headerClass ||
+              cfg.headerCellClass ||
+              'px-6 py-4 text-left text-sm font-medium'
+            "
+          >
+            {{ column.header }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody [class]="cfg.bodyClass || ''">
+      @for (row of data(); track $index) {
+        <tr [class]="cfg.rowClass || 'border-t border-light'">
+          @for (column of columns(); track column.key) {
+            <td [class]="column.cellClass || cfg.cellClass || 'px-6 py-4'">
+              @let cellType = getCellType(row[column.key], column.cellType);
+              @switch (cellType) {
+                @case ("code") {
+                  <code [class]="getCellTypeClass('code')">{{
+                    row[column.key]
+                  }}</code>
+                }
+                @case ("badge") {
+                  <span [class]="getCellTypeClass('badge')">{{
+                    row[column.key]
+                  }}</span>
+                }
+                @case ("muted") {
+                  <span [class]="getCellTypeClass('muted')">{{
+                    row[column.key]
+                  }}</span>
+                }
+                @case ("html") {
+                  <span
+                    [class]="getCellTypeClass('html')"
+                    [innerHTML]="row[column.key]"
+                  ></span>
+                }
+                @default {
+                  <span [class]="getCellTypeClass('text')">{{
+                    row[column.key]
+                  }}</span>
+                }
+              }
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

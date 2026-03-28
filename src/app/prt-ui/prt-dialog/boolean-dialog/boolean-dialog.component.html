@@ -1,0 +1,16 @@
+@let message = dialog.dialogConfig()?.data.message;
+
+<div class="p-4">
+  <div class="mb-2">
+    <h3 class="font-semibold text-xl">
+      {{ message.title }}
+    </h3>
+    <p class="text-muted">
+      {{ message.description }}
+    </p>
+  </div>
+  <div class="flex gap-2">
+    <prt-button [label]="message.trueBtnText || 'Yes'" (btnClick)="confirm(true)" />
+    <prt-button [label]="message.falseBtnText || 'No'" variant="outlined" (btnClick)="confirm(false)" />
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<div>
+  @if (dialog.isDialogOpen()) {
+    <app-dialog>
+      <ng-container *ngComponentOutlet="dialog.dialogConfig()!.component" />
+    </app-dialog>
+  }
+</div>

@@ -1,0 +1,64 @@
+@let isActive = isHovered();
+@let showTip  = effectiveTooltip();
+
+<div class="prt-button-wrapper">
+  <button
+    [class]="classes()"
+    [disabled]="disabled()"
+    [attr.aria-label]="computedAriaLabel()"
+    [attr.aria-describedby]="ariaDescribedBy() || (showTip ? 'tooltip-' + label() : null)"
+    [attr.aria-disabled]="disabled() || loading()"
+    [attr.aria-busy]="loading()"
+    (click)="handleClick()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
+    <!-- ── Loading spinner (reemplaza icono cuando loading=true) ─────────────── -->
+    @if (loading()) {
+      <app-spinner />
+    } @else {
+
+      <!-- ── Hover icon: posición LEFT ────────────────────────────────────────── -->
+      @if (hoverIcon() && iconPosition() === 'left') {
+        <i
+          class="material-symbols-rounded prt-hover-icon"
+          [class.prt-hover-icon--visible]="isActive"
+          aria-hidden="true"
+        >{{ hoverIcon() }}</i>
+      }
+
+      <!-- ── Icono estático ────────────────────────────────────────────────────── -->
+      @if (showIcon() && icon()) {
+        <i
+          class="material-symbols-rounded prt-static-icon"
+          [class.prt-static-icon--shift]="isActive && hoverIcon()"
+          aria-hidden="true"
+        >{{ icon() }}</i>
+      }
+
+      <!-- ── Label ─────────────────────────────────────────────────────────────── -->
+      @if (showLabel() && label()) {
+        <span>{{ label() }}</span>
+      }
+
+      <!-- ── Hover icon: posición RIGHT ───────────────────────────────────────── -->
+      @if (hoverIcon() && iconPosition() === 'right') {
+        <i
+          class="material-symbols-rounded prt-hover-icon"
+          [class.prt-hover-icon--visible]="isActive"
+          aria-hidden="true"
+        >{{ hoverIcon() }}</i>
+      }
+
+    }
+  </button>
+
+  <!-- ── Tooltip ───────────────────────────────────────────────────────────── -->
+  @if (showTip) {
+    <span
+      [id]="'tooltip-' + label()"
+      [class]="tooltipClasses()"
+      role="tooltip"
+    >{{ showTip }}</span>
+  }
+</div>

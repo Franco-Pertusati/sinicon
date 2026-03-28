@@ -1,0 +1,94 @@
+/* ─── Wrapper ─────────────────────────────────────────────────────────────── */
+.prt-button-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+/* ─── Hover icon ──────────────────────────────────────────────────────────── */
+.prt-hover-icon {
+  display: inline-flex;
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+
+  transition:
+    max-width 180ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity   150ms ease,
+    transform 150ms ease;
+
+  transform: scale(0.7) rotate(-15deg);
+}
+
+.prt-hover-icon--visible {
+  max-width: 1.5rem;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* ─── Icono estático: micro-shift cuando el hover icon aparece ───────────── */
+.prt-static-icon {
+  transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prt-static-icon--shift {
+  transform: translateX(2px);
+}
+
+/* ─── Tooltip ─────────────────────────────────────────────────────────────── */
+.prt-tooltip {
+  position: absolute;
+  z-index: 50;
+  white-space: nowrap;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.4;
+  pointer-events: none;
+
+  opacity: 0;
+  transition: opacity 150ms ease;
+
+  /* Delay para que no aparezca en hover fugaces */
+  transition-delay: 400ms;
+}
+
+.prt-button-wrapper:hover .prt-tooltip,
+button:focus-visible ~ .prt-tooltip {
+  opacity: 1;
+}
+
+/* Posiciones */
+.tooltip-top {
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-bottom {
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tooltip-left {
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.tooltip-right {
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ─── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .prt-hover-icon,
+  .prt-static-icon,
+  .prt-spinner,
+  .prt-tooltip {
+    transition: none;
+    animation: none;
+  }
+}

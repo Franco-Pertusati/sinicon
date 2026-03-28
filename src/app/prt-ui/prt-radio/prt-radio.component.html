@@ -1,0 +1,43 @@
+<div [class]="containerClasses()" style="position: relative">
+
+  <!-- Animated background pill that slides to the active option -->
+  @if (slidingStyle()) {
+    <div
+      [class]="'sliding-indicator text-dark ' + indicatorClass()"
+      [ngStyle]="slidingStyle()"
+    ></div>
+  }
+
+  <!-- One label per option -->
+  @for (option of options(); track option.value) {
+    <label
+      [class]="getOptionClasses(option)"
+      #optionLabel
+      [attr.data-value]="option.value"
+    >
+      <!-- Icon (Material Symbols) -->
+      @if (showIcon() && getDisplayIcon(option)) {
+        <div [class]="getIconClasses()">
+          <i class="material-symbols-rounded">{{ getDisplayIcon(option) }}</i>
+        </div>
+      }
+
+      <!-- Label text -->
+      @if (showLabel() && option.label) {
+        <span [class]="getLabelClasses(option)">{{ getDisplayLabel(option) }}</span>
+      }
+
+      <!-- Hidden native radio – keeps a11y semantics -->
+      <input
+        type="radio"
+        name="radio-group"
+        [value]="option.value"
+        [checked]="selectedValue() === option.value"
+        [disabled]="option.disabled"
+        (change)="onSelect(option)"
+        class="sr-only"
+      />
+    </label>
+  }
+
+</div>

@@ -1,0 +1,9 @@
+@if (openShift() != null) {
+  <div class="bg-dark rounded-2xl shadow p-1">
+    <div class="ml-auto w-fit">
+      <prt-button label="Añadir Registro" icon="add" (btnClick)="openFormDialog()" />
+    </div>
+  </div>
+} @else {
+  <app-no-shift />
+}

@@ -1,0 +1,27 @@
+<div class="relative w-full h-full max-w-xl mx-auto p-3 flex flex-col gap-2">
+  <app-toolbar />
+  <div class="grow">
+    @switch (selectedPage()) {
+      @case ("1") {
+        <app-current-shift />
+      }
+      @case ("2") {
+        <app-history />
+      }
+      @case ("3") {
+        <p>En construccion</p>
+      }
+      @default {
+        <p>Estado desconocido</p>
+      }
+    }
+  </div>
+  <div class="bg-dark rounded-2xl p-1 shadow flex gap-1 justify-between">
+    <prt-radio
+      [options]="radioOptions"
+      containerClasses="flex gap-1"
+      [(selectedValue)]="selectedPage"
+    />
+    <prt-button label="Cerrar Turno" icon="logout" />
+  </div>
+</div>

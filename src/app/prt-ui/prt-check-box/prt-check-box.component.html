@@ -1,0 +1,19 @@
+<label [class]="containerClasses()">
+  <input
+    type="checkbox"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="onToggle()"
+    class="sr-only"
+  />
+
+  @if (hasIcon()) {
+    <div [class]="iconClasses()">
+      <i class="material-symbols-rounded">{{ activeIcon() }}</i>
+    </div>
+  }
+
+  @if (hasLabel()) {
+    <span [class]="labelClasses()">{{ activeLabel() }}</span>
+  }
+</label>
