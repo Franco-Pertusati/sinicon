@@ -19,7 +19,10 @@
     </div>
     <div class="flex flex-col mb-4">
       @for (wine of wines; track $index) {
-        <div class="flex gap-4">
+        <div 
+          class="flex gap-4 cursor-pointer"
+          (contextmenu)="onWineContextMenu($event, wine)"
+        >
           <div class="grow">
             <span class="ml-2">{{ wine.name }}</span>
           </div>
@@ -33,7 +36,7 @@
               {{ wine.table }}
             </span>
           </div>
-          <div class="w-11">
+          <div class="w-11 flex justify-center">
             <span>
               {{ wine.createdAt | date: "HH:mm" }}
             </span>
@@ -49,6 +52,18 @@
       />
     </div>
   </div>
+
+  @if (contextMenu().visible) {
+    <div
+      class="fixed z-50"
+      [style.left.px]="contextMenu().x"
+      [style.top.px]="contextMenu().y"
+    >
+      <div class="flex flex-col gap-1 p-1 bg-dark rounded-2xl shadow">
+        <prt-button label="Repetir Registro" variant="ghost" icon="refresh" (btnClick)="onRecordRepeat()" />
+      </div>
+    </div>
+  }
 } @else {
   <app-no-shift />
 }

@@ -61,7 +61,7 @@ export class FormDialogComponent {
       // Add the wine to the current open shift
       this.shiftService.addOrder(newWine);
 
-      this.toastService.success('success', 'Registro creado exitosamente');
+      this.toastService.success('Registro creado');
       this.dialogService.closeDialog();
     } catch (error) {
       this.toastService.default('error', 'Error al crear el registro');
