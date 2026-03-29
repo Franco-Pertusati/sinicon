@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PrtButton } from "../../../../prt-ui/prt-button/prt-button.component";
 import { NoShiftComponent } from "../no-shift/no-shift.component";
 import { ShiftService } from '../../../../core/services/shift.service';
@@ -7,7 +8,7 @@ import { FormDialogComponent } from '../../components/form-dialog/form-dialog.co
 
 @Component({
   selector: 'app-current-shift',
-  imports: [PrtButton, NoShiftComponent],
+  imports: [CommonModule, PrtButton, NoShiftComponent],
   templateUrl: './current-shift.component.html'
 })
 export class CurrentShiftComponent {
@@ -15,6 +16,10 @@ export class CurrentShiftComponent {
   private dialog = inject(DialogService)
 
   openShift = this.shiftService.openShift$;
+  
+  get wines() {
+    return this.openShift()?.orders ?? [];
+  }
 
   openFormDialog() {
     this.dialog.openDialog(FormDialogComponent)

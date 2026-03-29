@@ -1,1 +1,86 @@
-<p>form-dialog works!</p>
+<div class="form-dialog-container p-6">
+  <div class="form-dialog-header">
+    <h2 class="font-semibold text-2xl mb-6 text-center">Registrar vino</h2>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+    <!-- Nombre del vino -->
+    <div class="form-group flex flex-col gap-1">
+      <label for="wine-name">Nombre del vino</label>
+      <input
+        id="wine-name"
+        type="text"
+        [(ngModel)]="name"
+        [ngModelOptions]="{ updateOn: 'change' }"
+        name="name"
+        placeholder="Therian Malbec De Los Andes"
+        class="border border-border p-2 rounded-xl"
+        [disabled]="isLoading()"
+      />
+    </div>
+
+    <!-- Tipo de vino -->
+    <div class="form-group flex flex-col gap-1">
+      <label for="wine-type">Tipo de vino</label>
+      <select
+        id="wine-type"
+        [(ngModel)]="type"
+        [ngModelOptions]="{ updateOn: 'change' }"
+        name="type"
+        class="p-2 border border-border rounded-xl"
+        [disabled]="isLoading()"
+      >
+        <option value="">Selecciona un tipo</option>
+        <option *ngFor="let wineType of wineTypes" [value]="wineType">
+          {{ wineType }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Mozo -->
+    <div class="form-group flex flex-col gap-1">
+      <label for="waiter">Mozo</label>
+      <input
+        id="waiter"
+        type="text"
+        [(ngModel)]="waiter"
+        [ngModelOptions]="{ updateOn: 'change' }"
+        name="waiter"
+        placeholder="Nombre del mozo"
+        class="border border-border p-2 rounded-xl"
+        [disabled]="isLoading()"
+      />
+    </div>
+
+    <!-- Mesa -->
+    <div class="form-group flex flex-col gap-1">
+      <label for="table">Mesa</label>
+      <input
+        id="table"
+        type="text"
+        [(ngModel)]="table"
+        [ngModelOptions]="{ updateOn: 'change' }"
+        name="table"
+        placeholder="Número o ubicación de la mesa"
+        class="border border-border p-2 rounded-xl"
+        [disabled]="isLoading()"
+      />
+    </div>
+
+    <!-- Botones -->
+    <div class="flex gap-1">
+      <prt-button
+        [label]="'Cancelar'"
+        variant="outlined"
+        (btnClick)="onCancel()"
+        [ngClass]="{ disabled: isLoading() }"
+      ></prt-button>
+
+      <prt-button
+        [label]="isLoading() ? 'Guardando...' : 'Guardar'"
+        type="submit"
+        [ngClass]="{ disabled: isLoading() }"
+      ></prt-button>
+    </div>
+  </form>
+</div>

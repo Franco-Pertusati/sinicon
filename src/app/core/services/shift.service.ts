@@ -131,6 +131,69 @@ export class ShiftService {
     return this.getById(shiftId)?.orders ?? [];
   }
 
+  // ─── Export ──────────────────────────────────────────────────────────────────
+
+  /** Generates a CSV string from a shift's orders */
+  private generateCSV(shift: Shift): string {
+    const headers = ['Nombre del Vino', 'Tipo', 'Mozo', 'Mesa', 'Hora'];
+    const headerRow = headers.join(',') + '\n';
+    
+    const dataRows = shift.orders
+      .map((order: WineRecord) => {
+        const time = new Date(order.createdAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+        return [
+          this.escapeCSV(order.name),
+          this.escapeCSV(order.type),
+          this.escapeCSV(order.waiter),
+          this.escapeCSV(order.table),
+          time
+        ].join(',');
+      })
+      .join('\n');
+
+    // Add summary section
+    const openedAt = new Date(shift.openedAt).toLocaleString('es-AR');
+    const closedAt = shift.closedAt ? new Date(shift.closedAt).toLocaleString('es-AR') : 'Abierto';
+    const totalOrders = shift.orders.length;
+    
+    const summary = `\n\nResumen del Turno\nID del Turno,${shift.id}\nAbierto,${openedAt}\nCerrado,${closedAt}\nTotal de Registros,${totalOrders}`;
+
+    return headerRow + dataRows + summary;
+  }
+
+  /** Escapes a value for CSV format */
+  private escapeCSV(value: string): string {
+    if (!value) return '';
+    if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+      return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
+  }
+
+  /** Downloads a CSV file */
+  private downloadCSV(csv: string, shiftId: string): void {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+    element.setAttribute('download', `turno_${shiftId}_${new Date().getTime()}.csv`);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  /** Exports a shift by id as CSV */
+  exportShift(shiftId: string): boolean {
+    const shift = this.getById(shiftId);
+    
+    if (!shift) {
+      return false;
+    }
+
+    const csv = this.generateCSV(shift);
+    this.downloadCSV(csv, shiftId);
+    return true;
+  }
+
   // ─── Cleanup ─────────────────────────────────────────────────────────────────
 
   /** Removes all shifts from storage. */

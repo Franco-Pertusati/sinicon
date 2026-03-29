@@ -1,1 +1,37 @@
-<p>history works!</p>
+<div>
+  @if (shifts.length === 0) {
+    <div>
+      <p>No hay historial de turnos</p>
+    </div>
+  } @else {
+    <div class="bg-dark rounded-2xl shadow p-4">
+      <div class="flex gap-2">
+        <div class="w-44">
+          <span class="font-semibold">Fecha Apertura</span>
+        </div>
+        <div class="w-44">
+          <span class="font-semibold">Fecha Cierre</span>
+        </div>
+        <div>
+          <span class="font-semibold">Total Registros</span>
+        </div>
+      </div>
+      <div>
+        @for (shift of shifts; track shift.id) {
+          <div class="flex gap-2 items-center">
+            <div class="w-44">
+              <span>{{ shift.openedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            <div class="w-44">
+              <span>{{ shift.closedAt ? (shift.closedAt | date: 'dd/MM/yyyy HH:mm') : 'Abierto' }}</span>
+            </div>
+            <div class="text-center w-44">
+              <span>{{ shift.orders.length }}</span>
+            </div>
+            <prt-button icon="download" variant="ghost" (btnClick)="exportShift(shift.id)" />
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -1,7 +1,18 @@
 <div class="flex justify-between w-full items-center">
   <div>
-    <h1 class="text-2xl font-semibold">Turno Tarde 28/03</h1>
-    <span class="text-muted">Carga de vinos</span>
+    @if (openShift) {
+      <div class="flex gap-1 items-center">
+        <div class="h-2 w-2 rounded-xl bg-succes shadow-succes shadow"></div>
+        <h1 class="text-2xl font-semibold">Turno {{ shiftTime }}</h1>
+      </div>
+      <span class="text-muted">{{ totalWines }} registros de vinos</span>
+    } @else {
+      <div class="flex gap-1 items-center">
+        <div class="h-2 w-2 rounded-xl bg-danger shadow-danger shadow"></div>
+        <h1 class="text-2xl font-semibold">Sin turno abierto</h1>
+      </div>
+      <span class="text-muted">Abre un turno para comenzar</span>
+    }
   </div>
   <div class="bg-dark rounded-2xl p-1 shadow">
     <app-theme-toggle-btn variant="ghost" />

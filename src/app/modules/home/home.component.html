@@ -22,6 +22,6 @@
       containerClasses="flex gap-1"
       [(selectedValue)]="selectedPage"
     />
-    <prt-button label="Cerrar Turno" icon="logout" />
+    <prt-button label="Cerrar Turno" icon="logout" (btnClick)="closeAndExport()" />
   </div>
 </div>
