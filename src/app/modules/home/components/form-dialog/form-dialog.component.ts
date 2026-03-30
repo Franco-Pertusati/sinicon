@@ -21,22 +21,16 @@ export class FormDialogComponent {
 
   // Form fields
   name = signal<string>('');
-  type = signal<string>('');
   waiter = signal<string>('');
   table = signal<string>('');
   isLoading = signal<boolean>(false);
 
-  // Wine types options
-  wineTypes = ['Malbec', 'Chardonnay', 'Pinot Noir', 'Cabernet Franc', 'Cabernet Sauvignon', 'Sauvignon Blanc', 'Merlot', 'Rosé', 'Moscato', 'Semillón', 'Torrontés'];
+
 
   onSubmit() {
     // Validation
     if (!this.name().trim()) {
       this.toastService.default('error', 'Escribe el nombre del vino');
-      return;
-    }
-    if (!this.type()) {
-      this.toastService.default('error', 'Selecciona un tipo de vino');
       return;
     }
     if (!this.waiter().trim()) {
@@ -53,7 +47,6 @@ export class FormDialogComponent {
     try {
       const newWine = this.wineService.create({
         name: this.name().trim(),
-        type: this.type(),
         waiter: this.waiter().trim(),
         table: this.table().trim()
       });

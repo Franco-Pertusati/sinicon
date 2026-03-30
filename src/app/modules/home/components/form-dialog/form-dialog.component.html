@@ -19,24 +19,6 @@
       />
     </div>
 
-    <!-- Tipo de vino -->
-    <div class="form-group flex flex-col gap-1">
-      <label for="wine-type">Tipo de vino</label>
-      <select
-        id="wine-type"
-        [(ngModel)]="type"
-        [ngModelOptions]="{ updateOn: 'change' }"
-        name="type"
-        class="p-2 border border-border rounded-xl"
-        [disabled]="isLoading()"
-      >
-        <option value="">Selecciona un tipo</option>
-        <option *ngFor="let wineType of wineTypes" [value]="wineType">
-          {{ wineType }}
-        </option>
-      </select>
-    </div>
-
     <!-- Mozo -->
     <div class="form-group flex flex-col gap-1">
       <label for="waiter">Mozo</label>

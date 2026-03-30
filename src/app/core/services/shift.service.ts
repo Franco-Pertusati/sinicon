@@ -142,8 +142,7 @@ export class ShiftService {
       .map((order: WineRecord) => {
         const time = new Date(order.createdAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
         return [
-          this.escapeCSV(order.name),
-          this.escapeCSV(order.type),
+          // this.escapeCSV(order.name),
           this.escapeCSV(order.waiter),
           this.escapeCSV(order.table),
           time

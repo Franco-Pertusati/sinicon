@@ -8,14 +8,15 @@ import { CurrentShiftComponent } from "./routes/current-shift/current-shift.comp
 import { HistoryComponent } from "./routes/history/history.component";
 import { ShiftService } from '../../core/services/shift.service';
 import { ToastService } from '../../core/services/toast.service';
+import { DataComponent } from "./routes/data/data.component";
 
 @Component({
   selector: 'app-home',
-  imports: [NavbarComponent, ToolbarComponent, PrtRadioComponent, PrtButton, CurrentShiftComponent, HistoryComponent],
+  imports: [NavbarComponent, ToolbarComponent, PrtRadioComponent, PrtButton, CurrentShiftComponent, HistoryComponent, DataComponent],
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
-  selectedPage = model<string>('1')
+  selectedPage = model<string>('3')
   private shiftService = inject(ShiftService);
   private toastService = inject(ToastService);
   radioOptions: RadioOption[] = [
@@ -31,8 +32,8 @@ export class HomeComponent {
     },
     {
       value: '3',
-      label: 'Vinos',
-      icon: 'wine_bar'
+      label: 'Data',
+      icon: 'database'
     }
   ]
 

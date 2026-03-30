@@ -1,0 +1,20 @@
+<div class="flex gap-2 flex-col">
+  <div class="bg-dark rounded-2xl shadow p-1 flex justify-center">
+    <prt-radio
+      [options]="radioOptions"
+      [(selectedValue)]="selectedPage"
+      containerClasses="flex mx-auto"
+    />
+  </div>
+  <div>
+    @switch (selectedPage()) {
+      @case ("1") {
+        <app-waiter-list />
+      }
+      @case ("2") {
+        <app-wine-list />
+      }
+      @default {}
+    }
+  </div>
+</div>

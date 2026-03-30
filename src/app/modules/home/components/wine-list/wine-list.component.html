@@ -1,0 +1,93 @@
+<div>
+  <div>
+    <h2>Crear Vino</h2>
+    <input 
+      type="text" 
+      placeholder="Nombre del vino"
+      [(ngModel)]="wineFormData().name"
+      (keyup.enter)="createWine()"
+    />
+    <button (click)="createWine()">Agregar</button>
+  </div>
+
+  <div>
+    <h2>Lista de Vinos</h2>
+    @if (wines().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (wine of wines(); track wine.id) {
+            <tr>
+              <td>{{ wine.id }}</td>
+              <td>{{ wine.name }}</td>
+              <td>
+                <button (click)="deleteWine(wine.id)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p>No hay vinos registrados</p>
+    }
+  </div>
+
+  <div>
+    <h2>Crear Registro de Vino</h2>
+    <select [(ngModel)]="recordFormData().wineId">
+      <option value="">Seleccionar vino</option>
+      @for (wine of wines(); track wine.id) {
+        <option [value]="wine.id">{{ wine.name }}</option>
+      }
+    </select>
+    <input 
+      type="text" 
+      placeholder="Mesero"
+      [(ngModel)]="recordFormData().waiter"
+    />
+    <input 
+      type="text" 
+      placeholder="Mesa"
+      [(ngModel)]="recordFormData().table"
+    />
+    <button (click)="createRecord()">Agregar</button>
+  </div>
+
+  <div>
+    <h2>Lista de Registros</h2>
+    @if (records().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th>Vino</th>
+            <th>Mesero</th>
+            <th>Mesa</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (record of records(); track record.id) {
+            <tr>
+              <td>{{ getWineName(record.wineId) }}</td>
+              <td>{{ record.waiter }}</td>
+              <td>{{ record.table }}</td>
+              <td>{{ record.createdAt | date: 'short' }}</td>
+              <td>
+                <button (click)="deleteRecord(record.id)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p>No hay registros</p>
+    }
+  </div>
+</div>

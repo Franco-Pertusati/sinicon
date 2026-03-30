@@ -1,0 +1,40 @@
+<div>
+  <div>
+    <h2>Crear Mesero</h2>
+    <input 
+      type="text" 
+      placeholder="Nombre del mesero"
+      [(ngModel)]="formData().name"
+      (keyup.enter)="createWaiter()"
+    />
+    <button (click)="createWaiter()">Agregar</button>
+  </div>
+
+  <div>
+    <h2>Lista de Meseros</h2>
+    @if (waiters().length > 0) {
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (waiter of waiters(); track waiter.id) {
+            <tr>
+              <td>{{ waiter.id }}</td>
+              <td>{{ waiter.name }}</td>
+              <td>
+                <button (click)="deleteWaiter(waiter.id)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    } @else {
+      <p>No hay meseros registrados</p>
+    }
+  </div>
+</div>

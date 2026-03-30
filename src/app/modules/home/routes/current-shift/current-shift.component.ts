@@ -58,7 +58,6 @@ export class CurrentShiftComponent {
       const newOrder: WineRecord = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
         name: wine.name,
-        type: wine.type,
         waiter: wine.waiter,
         table: wine.table,
         createdAt: new Date()
