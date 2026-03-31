@@ -4,6 +4,7 @@ import { PrtButton } from "../../../../prt-ui/prt-button/prt-button.component";
 import { NoShiftComponent } from "../no-shift/no-shift.component";
 import { ShiftService } from '../../../../core/services/shift.service';
 import { DialogService } from '../../../../core/services/dialog.service';
+import { WineListService } from '../../../../core/services/wine-list.service';
 import { FormDialogComponent } from '../../components/form-dialog/form-dialog.component';
 import { WineRecord } from '../../../../core/interfaces/wineRecord';
 
@@ -14,7 +15,8 @@ import { WineRecord } from '../../../../core/interfaces/wineRecord';
 })
 export class CurrentShiftComponent {
   private shiftService = inject(ShiftService);
-  private dialog = inject(DialogService)
+  private dialog = inject(DialogService);
+  private wineListService = inject(WineListService);
 
   openShift = this.shiftService.openShift$;
   
@@ -57,7 +59,7 @@ export class CurrentShiftComponent {
     if (wine) {
       const newOrder: WineRecord = {
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
-        name: wine.name,
+        wineId: wine.wineId,
         waiter: wine.waiter,
         table: wine.table,
         createdAt: new Date()
@@ -65,5 +67,9 @@ export class CurrentShiftComponent {
       this.shiftService.addOrder(newOrder);
     }
     this.closeContextMenu();
+  }
+
+  getWineName(wineId: string): string {
+    return this.wineListService.getById(wineId)?.name || 'Vino desconocido';
   }
 }

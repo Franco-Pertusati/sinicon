@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ThemeToggleBtnComponent } from "../../../../prt-ui/theme-toggle-btn/theme-toggle-btn.component";
 import { ShiftService } from '../../../../core/services/shift.service';
 import { WineService } from '../../../../core/services/wine.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -11,7 +12,9 @@ import { WineService } from '../../../../core/services/wine.service';
 })
 export class ToolbarComponent {
   private shiftService = inject(ShiftService);
-  private wineService = inject(WineService);
+  private themeService = inject(ThemeService);
+
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   get openShift() {
     return this.shiftService.openShift$();

@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WaiterService } from '../../../../core/services/waiter.service';
 import { Waiter } from '../../../../core/interfaces/waiter';
+import { PrtButton } from "../../../../prt-ui/prt-button/prt-button.component";
 
 @Component({
   selector: 'app-waiter-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PrtButton],
   templateUrl: './waiter-list.component.html'
 })
 export class WaiterListComponent {

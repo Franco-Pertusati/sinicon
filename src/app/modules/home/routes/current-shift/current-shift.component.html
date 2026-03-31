@@ -24,7 +24,7 @@
           (contextmenu)="onWineContextMenu($event, wine)"
         >
           <div class="grow">
-            <span class="ml-2">{{ wine.name }}</span>
+            <span class="ml-2">{{ getWineName(wine.wineId) }}</span>
           </div>
           <div class="w-24">
             <span>

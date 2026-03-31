@@ -1,37 +1,96 @@
-<div class="form-dialog-container p-6">
+<div class="form-dialog-container p-6 max-h-[480]">
   <div class="form-dialog-header">
     <h2 class="font-semibold text-2xl mb-6 text-center">Registrar vino</h2>
   </div>
 
-  <form (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
-    <!-- Nombre del vino -->
-    <div class="form-group flex flex-col gap-1">
-      <label for="wine-name">Nombre del vino</label>
+  <form (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+    <!-- Selección de Vino -->
+    <div class="form-group flex flex-col gap-3">
+      <label>Seleccionar vino</label>
+      
+      <!-- Input de búsqueda -->
       <input
-        id="wine-name"
         type="text"
-        [(ngModel)]="name"
+        [(ngModel)]="searchFilter"
         [ngModelOptions]="{ updateOn: 'change' }"
-        name="name"
-        placeholder="Therian Malbec De Los Andes"
+        name="searchFilter"
+        placeholder="Buscar o crear vino..."
         class="border border-border p-2 rounded-xl"
         [disabled]="isLoading()"
       />
+
+      <!-- Grid de vinos -->
+      <div class="grid grid-cols-3 gap-2 max-w-96 max-h-64 overflow-y-auto rounded-xl p-1">
+        @if (filteredWines().length > 0) {
+          @for (wine of filteredWines(); track wine.id) {
+            <button
+              type="button"
+              (click)="selectWine(wine.id)"
+              [ngClass]="{'ring-2 ring-text bg-text/10': selectedWineId() === wine.id }"
+              class="p-2 border border-border rounded-lg hover:bg-hover transition truncate h-32 text-wrap"
+              [disabled]="isLoading()"
+            >
+              {{ wine.name }}
+            </button>
+          }
+        } @else if (hasNoMatches()) {
+          <div class="col-span-3 text-center py-4 text-muted">
+            <p class="mb-3">No hay vinos que coincidan</p>
+            <button
+              type="button"
+              (click)="createAndSelectWine()"
+              class="w-full px-3 py-2 bg-text text-dark rounded-lg hover:opacity-90 transition"
+              [disabled]="isLoading()"
+            >
+              Crear "{{ searchFilter() }}"
+            </button>
+          </div>
+        } @else {
+          <div class="col-span-3 text-center py-4 text-muted">
+            Cargando vinos...
+          </div>
+        }
+      </div>
+
+      <!-- Estado seleccionado -->
+      @if (selectedWineId()) {
+        <div class="text-sm text-success bg-success/10 p-2 rounded-lg">
+          ✓ Vino seleccionado
+        </div>
+      }
     </div>
 
     <!-- Mozo -->
-    <div class="form-group flex flex-col gap-1">
-      <label for="waiter">Mozo</label>
-      <input
-        id="waiter"
-        type="text"
-        [(ngModel)]="waiter"
-        [ngModelOptions]="{ updateOn: 'change' }"
-        name="waiter"
-        placeholder="Nombre del mozo"
-        class="border border-border p-2 rounded-xl"
-        [disabled]="isLoading()"
-      />
+    <div class="form-group flex flex-col gap-3">
+      <label>Seleccionar mozo</label>
+
+      <!-- Grid de mozos -->
+      <div class="grid grid-cols-3 gap-2 max-w-96 max-h-48 overflow-y-auto rounded-xl p-1">
+        @if (waiters().length > 0) {
+          @for (waiter of waiters(); track waiter.id) {
+            <button
+              type="button"
+              (click)="selectWaiter(waiter.id)"
+              [ngClass]="{'ring-2 ring-text bg-text/10': selectedWaiterId() === waiter.id }"
+              class="p-2 border border-border rounded-lg hover:bg-hover transition truncate h-16"
+              [disabled]="isLoading()"
+            >
+              {{ waiter.name }}
+            </button>
+          }
+        } @else {
+          <div class="col-span-3 text-center py-4 text-muted">
+            No hay mozos registrados
+          </div>
+        }
+      </div>
+
+      <!-- Estado seleccionado -->
+      @if (selectedWaiterId()) {
+        <div class="text-sm text-success bg-success/10 p-2 rounded-lg">
+          ✓ Mozo seleccionado
+        </div>
+      }
     </div>
 
     <!-- Mesa -->
@@ -61,7 +120,8 @@
       <prt-button
         [label]="isLoading() ? 'Guardando...' : 'Guardar'"
         type="submit"
-        [ngClass]="{ disabled: isLoading() }"
+        [disabled]="!selectedWineId() || !selectedWaiterId() || isLoading()"
+        [ngClass]="{ disabled: !selectedWineId() || !selectedWaiterId() || isLoading() }"
       ></prt-button>
     </div>
   </form>

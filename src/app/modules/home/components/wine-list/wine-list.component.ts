@@ -5,10 +5,11 @@ import { WineListService } from '../../../../core/services/wine-list.service';
 import { WineService } from '../../../../core/services/wine.service';
 import { Wine } from '../../../../core/interfaces/wine';
 import { WineRecord } from '../../../../core/interfaces/wineRecord';
+import { PrtButton } from "../../../../prt-ui/prt-button/prt-button.component";
 
 @Component({
   selector: 'app-wine-list',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PrtButton],
   templateUrl: './wine-list.component.html'
 })
 export class WineListComponent {

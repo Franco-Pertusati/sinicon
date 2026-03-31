@@ -1,38 +1,28 @@
 <div>
-  <div>
-    <h2>Crear Mesero</h2>
-    <input 
-      type="text" 
-      placeholder="Nombre del mesero"
-      [(ngModel)]="formData().name"
-      (keyup.enter)="createWaiter()"
-    />
-    <button (click)="createWaiter()">Agregar</button>
+  <div class="rounded-2xl bg-dark shadow p-1 mb-1">
+    <h2 class="mb-1">Crear Mesero</h2>
+    <div class="flex gap-1">
+      <input
+        class="p-1 rounded-xl border border-border grow"
+        type="text"
+        placeholder="Nombre del mesero"
+        [(ngModel)]="formData().name"
+        (keyup.enter)="createWaiter()"
+      />
+      <prt-button (btnClick)="createWaiter()" label="Crear" icon="add" />
+    </div>
   </div>
 
   <div>
-    <h2>Lista de Meseros</h2>
     @if (waiters().length > 0) {
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (waiter of waiters(); track waiter.id) {
-            <tr>
-              <td>{{ waiter.id }}</td>
-              <td>{{ waiter.name }}</td>
-              <td>
-                <button (click)="deleteWaiter(waiter.id)">Eliminar</button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
+      <div class="flex flex-wrap">
+        @for (waiter of waiters(); track waiter.id) {
+          <div class="bg-dark p-1 flex items-center justify-between rounded-2xl shadow w-1/3">
+            <span>{{ waiter.name }}</span>
+            <prt-button (btnClick)="deleteWaiter(waiter.id)" icon="delete" variant="ghost" />
+          </div>
+        }
+      </div>
     } @else {
       <p>No hay meseros registrados</p>
     }

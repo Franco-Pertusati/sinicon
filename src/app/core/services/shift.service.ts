@@ -1,6 +1,7 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { Shift } from '../interfaces/shift';
 import { WineRecord } from '../interfaces/wineRecord';
+import { WineListService } from './wine-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +9,7 @@ import { WineRecord } from '../interfaces/wineRecord';
 export class ShiftService {
   private readonly STORAGE_KEY = 'shifts';
   private shiftsSignal = signal<Shift[]>(this.load());
+  private wineListService = inject(WineListService);
   readonly openShift$ = computed(() => this.shiftsSignal().find((s) => s.isOpen) ?? null);
 
   // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -135,14 +137,15 @@ export class ShiftService {
 
   /** Generates a CSV string from a shift's orders */
   private generateCSV(shift: Shift): string {
-    const headers = ['Nombre del Vino', 'Tipo', 'Mozo', 'Mesa', 'Hora'];
+    const headers = ['Nombre del Vino', 'Mozo', 'Mesa', 'Hora'];
     const headerRow = headers.join(',') + '\n';
     
     const dataRows = shift.orders
       .map((order: WineRecord) => {
+        const wineName = this.wineListService.getById(order.wineId)?.name || 'Vino desconocido';
         const time = new Date(order.createdAt).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
         return [
-          // this.escapeCSV(order.name),
+          this.escapeCSV(wineName),
           this.escapeCSV(order.waiter),
           this.escapeCSV(order.table),
           time
